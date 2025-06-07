@@ -1,3 +1,4 @@
+# Importación de módulos necesarios
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 from structures.hash_table import HashTable
@@ -8,13 +9,15 @@ from utils.paciente_io import guardar_pacientes, cargar_pacientes
 from utils.sorting import merge_sort
 from utils.access_log import leer_historial_accesos
 
-# Cargar usuarios en hash table
-users = HashTable()
+# Constantes para rutas de archivos
 USERS_FILE = "data/users.txt"
 ACCESS_LOG_FILE = "data/access_log.txt"
 PACIENTES_FILE = "data/pacientes.txt"
 
-# Cargar usuarios desde archivo
+# Estructura hash para almacenar usuarios (username -> password)
+users = HashTable()
+
+# Carga los usuarios existentes desde el archivo
 def load_users():
     try:
         with open(USERS_FILE, "r") as f:
@@ -22,9 +25,9 @@ def load_users():
                 u, p = line.strip().split(",")
                 users.insert(u, p)
     except FileNotFoundError:
-        open(USERS_FILE, "w").close()
+        open(USERS_FILE, "w").close()  # Crea el archivo si no existe
 
-# Registrar nuevo usuario
+# Registra un nuevo usuario en la hash table y en el archivo
 def register_user(username, password):
     if users.search(username):
         return False, "Usuario ya existe."
@@ -33,7 +36,7 @@ def register_user(username, password):
         f.write(f"{username},{password}\n")
     return True, "Usuario registrado correctamente."
 
-# Verificar login
+# Verifica las credenciales del usuario
 def login_user(username, password):
     stored = users.search(username)
     if stored and stored == password:
@@ -41,45 +44,42 @@ def login_user(username, password):
         return True
     return False
 
-# Registrar acceso
+# Registra una acción de acceso al sistema con timestamp
 def log_access(username, action):
     with open(ACCESS_LOG_FILE, "a") as f:
         f.write(f"{username},{action},{current_timestamp()}\n")
 
-# Ventana principal
+# Ventana principal que se abre después del login exitoso
 def abrir_ventana_principal(usuario):
     principal = tk.Tk()
     principal.title("Sistema Hospitalario")
     principal.geometry("600x400")
 
-    # Estructuras
+    # Estructuras internas
     pacientes_queue = ColaPrioridad()
     historial = ListaHistorial()
 
-    # Cargar pacientes persistentes
+    # Carga los pacientes previamente registrados
     for p in cargar_pacientes():
         pacientes_queue.insertar(p)
 
+    # Función para registrar un nuevo paciente
     def registrar_paciente():
         id_p = simpledialog.askstring("ID", "ID del paciente:", parent=principal)
-        if id_p is None:
-            return
+        if id_p is None: return
         nombre = simpledialog.askstring("Nombre", "Nombre del paciente:", parent=principal)
-        if nombre is None:
-            return
+        if nombre is None: return
         edad = simpledialog.askinteger("Edad", "Edad del paciente:", parent=principal, minvalue=0)
-        if edad is None:
-            return
+        if edad is None: return
         gravedad = simpledialog.askinteger("Gravedad (1-10)", "Nivel de gravedad:", parent=principal, minvalue=1, maxvalue=10)
-        if gravedad is None:
-            return
+        if gravedad is None: return
 
         paciente = Paciente(id_p, nombre, edad, gravedad)
         pacientes_queue.insertar(paciente)
-        accion = f"Registró paciente {nombre} con gravedad {gravedad}"
-        historial.agregar(usuario, accion, current_timestamp())
+        historial.agregar(usuario, f"Registró paciente {nombre} con gravedad {gravedad}", current_timestamp())
         messagebox.showinfo("Paciente registrado", f"Paciente {nombre} añadido con éxito.", parent=principal)
 
+    # Muestra los pacientes ordenados por prioridad (gravedad)
     def ver_pacientes():
         lista = pacientes_queue.obtener_todos()
         if not lista:
@@ -88,6 +88,7 @@ def abrir_ventana_principal(usuario):
         salida = "\n".join([f"ID: {p.id} | Nombre: {p.nombre} | Edad: {p.edad} | Gravedad: {p.gravedad}" for p in lista])
         messagebox.showinfo("Pacientes por Gravedad", salida, parent=principal)
 
+    # Muestra el historial de acciones realizadas por el usuario actual
     def ver_historial_pacientes():
         registros = historial.obtener_historial()
         if not registros:
@@ -96,6 +97,7 @@ def abrir_ventana_principal(usuario):
         salida = "\n".join([f"{u} hizo '{a}' a las {t}" for u, a, t in registros])
         messagebox.showinfo("Historial de Actividad de Pacientes", salida, parent=principal)
 
+    # Muestra el historial de accesos al sistema
     def ver_historial_accesos_gui():
         accesos = leer_historial_accesos()
         if not accesos:
@@ -104,6 +106,7 @@ def abrir_ventana_principal(usuario):
         salida = "\n".join([f"{u} - {a} - {t}" for u, a, t in accesos])
         messagebox.showinfo("Historial de Accesos", salida, parent=principal)
 
+    # Ordena pacientes por nombre o edad y los muestra
     def exportar_ordenados():
         criterio = simpledialog.askstring("Ordenar por", "¿Ordenar por 'nombre' o 'edad'?", parent=principal)
         if criterio not in ["nombre", "edad"]:
@@ -117,40 +120,30 @@ def abrir_ventana_principal(usuario):
         salida = "\n".join([f"ID: {p.id} | Nombre: {p.nombre} | Edad: {p.edad} | Gravedad: {p.gravedad}" for p in ordenados])
         messagebox.showinfo("Pacientes Ordenados", salida, parent=principal)
 
+    # Guarda pacientes y cierra la sesión
     def cerrar_sesion():
         guardar_pacientes(pacientes_queue.obtener_todos())
         log_access(usuario, "salida")
         principal.destroy()
 
-    # Widgets
+    # Widgets de la ventana principal
     tk.Label(principal, text=f"Bienvenido, {usuario}", font=("Arial", 16)).pack(pady=10)
-
-    btn_registrar = tk.Button(principal, text="Registrar Paciente", command=registrar_paciente)
-    btn_registrar.pack(pady=5)
-
-    btn_ver = tk.Button(principal, text="Ver Pacientes por Gravedad", command=ver_pacientes)
-    btn_ver.pack(pady=5)
-
-    btn_hist_pac = tk.Button(principal, text="Historial de Pacientes", command=ver_historial_pacientes)
-    btn_hist_pac.pack(pady=5)
-
-    btn_hist_acc = tk.Button(principal, text="Ver Historial de Accesos", command=ver_historial_accesos_gui)
-    btn_hist_acc.pack(pady=5)
-
-    btn_ord = tk.Button(principal, text="Exportar Pacientes Ordenados", command=exportar_ordenados)
-    btn_ord.pack(pady=5)
-
-    btn_cerrar = tk.Button(principal, text="Cerrar Sesión", command=cerrar_sesion)
-    btn_cerrar.pack(pady=20)
+    tk.Button(principal, text="Registrar Paciente", command=registrar_paciente).pack(pady=5)
+    tk.Button(principal, text="Ver Pacientes por Gravedad", command=ver_pacientes).pack(pady=5)
+    tk.Button(principal, text="Historial de Pacientes", command=ver_historial_pacientes).pack(pady=5)
+    tk.Button(principal, text="Ver Historial de Accesos", command=ver_historial_accesos_gui).pack(pady=5)
+    tk.Button(principal, text="Exportar Pacientes Ordenados", command=exportar_ordenados).pack(pady=5)
+    tk.Button(principal, text="Cerrar Sesión", command=cerrar_sesion).pack(pady=20)
 
     principal.mainloop()
 
-# Interfaz de Login y Registro
+# Ventana de login inicial del sistema
 def mostrar_login():
     login_win = tk.Tk()
     login_win.title("Login - Sistema Hospitalario")
     login_win.geometry("300x220")
 
+    # Campos de entrada para usuario y contraseña
     tk.Label(login_win, text="Usuario").pack(pady=5)
     entry_user = tk.Entry(login_win)
     entry_user.pack()
@@ -159,6 +152,7 @@ def mostrar_login():
     entry_pass = tk.Entry(login_win, show="*")
     entry_pass.pack()
 
+    # Intenta iniciar sesión con las credenciales dadas
     def attempt_login():
         u = entry_user.get().strip()
         p = entry_pass.get().strip()
@@ -169,6 +163,7 @@ def mostrar_login():
         else:
             messagebox.showerror("Error", "Credenciales incorrectas", parent=login_win)
 
+    # Abre una subventana para registrar un nuevo usuario
     def mostrar_registro():
         reg_win = tk.Toplevel(login_win)
         reg_win.title("Registro - Sistema Hospitalario")
@@ -182,6 +177,7 @@ def mostrar_login():
         entry_pass_r = tk.Entry(reg_win, show="*")
         entry_pass_r.pack()
 
+        # Intenta registrar un nuevo usuario
         def attempt_register():
             u = entry_user_r.get().strip()
             p = entry_pass_r.get().strip()
@@ -197,13 +193,14 @@ def mostrar_login():
 
         tk.Button(reg_win, text="Registrar", command=attempt_register).pack(pady=10)
 
+    # Botones de login y registro
     tk.Button(login_win, text="Iniciar Sesión", command=attempt_login).pack(pady=10)
     tk.Button(login_win, text="Registrarse", command=mostrar_registro).pack()
     login_win.mainloop()
 
+# Punto de entrada del programa
 if __name__ == "__main__":
-    load_users()
-    # Asegurar existencia de archivos
-    open(ACCESS_LOG_FILE, "a").close()
+    load_users()  # Carga usuarios desde archivo
+    open(ACCESS_LOG_FILE, "a").close()  # Asegura que existan los archivos
     open(PACIENTES_FILE, "a").close()
-    mostrar_login()
+    mostrar_login()  # Muestra la interfaz de login
