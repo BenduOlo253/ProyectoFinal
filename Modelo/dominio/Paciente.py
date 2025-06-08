@@ -1,7 +1,10 @@
 # Clase que representa a un paciente con atributos básicos
 class Paciente:
-    def __init__(self, id, nombre, edad, gravedad):
-        self.id = id                # Identificador único del paciente
-        self.nombre = nombre        # Nombre del paciente
-        self.edad = edad            # Edad del paciente
-        self.gravedad = gravedad    # Nivel de gravedad (prioridad): entre más alto, más urgente
+    def __init__(self, idPaciente, nombre, edad, genero, motivo, gravedad, fechaIngreso):
+        self.__idPaciente = idPaciente
+        self.__nombre = nombre
+        self.__edad = edad
+        self.__genero = genero
+        self.__motivo = motivo
+        self.__gravedad = gravedad
+        self.__feechaIngreso = fechaIngreso
