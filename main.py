@@ -1,4 +1,5 @@
 # Importación de módulos necesarios
+#joula
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 from structures.hash_table import HashTable
@@ -53,8 +54,14 @@ def log_access(username, action):
 def abrir_ventana_principal(usuario):
     principal = tk.Tk()
     principal.title("Sistema Hospitalario")
-    principal.geometry("600x400")
+    principal.geometry("400x400")
+    principal.configure(bg="#d7d7d7")
 
+    #colores
+    azul="#1f77b4"
+    blanco = "#ffffff"
+    gris = "#e1e1e1"
+    gris_oscuro= "#d7d7d7"
     # Estructuras internas
     pacientes_queue = ColaPrioridad()
     historial = ListaHistorial()
@@ -141,16 +148,34 @@ def abrir_ventana_principal(usuario):
 def mostrar_login():
     login_win = tk.Tk()
     login_win.title("Login - Sistema Hospitalario")
-    login_win.geometry("300x220")
+    login_win.geometry("500x400")
+    login_win.configure(bg="#f0f0f0")
 
-    # Campos de entrada para usuario y contraseña
-    tk.Label(login_win, text="Usuario").pack(pady=5)
-    entry_user = tk.Entry(login_win)
-    entry_user.pack()
+    #colores
+    azul="#1f77b4"
+    blanco = "#ffffff"
+    gris = "#e1e1e1"
 
-    tk.Label(login_win, text="Contraseña").pack(pady=5)
-    entry_pass = tk.Entry(login_win, show="*")
-    entry_pass.pack()
+    # Etiqueta de título
+    titulo = tk.Label(login_win, text="Sistema Hospitalario", font=("Helvetica", 16, "bold"), bg="#ffffff", bd=0.5, relief="groove", fg=azul)
+    titulo.pack(pady=20)
+
+    # Frame para los campos, con fondo blanco y borde
+    frame_campos = tk.Frame(login_win, bg=blanco, bd=2, relief="groove")
+    frame_campos.pack(padx=20, pady=20)
+
+    # Campo de usuario
+    label_usuario = tk.Label(frame_campos, text="Nombre de usuario:", bg=blanco, fg="black", font=("Helvetica", 13))
+    label_usuario.grid(row=0, column=0, padx=10, pady=10, sticky="e")
+    entry_user = tk.Entry(frame_campos, width=30, bd=3, relief="groove")
+    entry_user.grid(row=0, column=1, padx=10, pady=10)
+
+    # Campo de contraseña
+    label_contrasena = tk.Label(frame_campos, text="Contraseña:", bg=blanco, fg="black", font=("Helvetica", 13))
+    label_contrasena.grid(row=1, column=0, padx=10, pady=10, sticky="e")
+    entry_pass = tk.Entry(frame_campos, show="*", width=30, bd=3, relief="groove")
+    entry_pass.grid(row=1, column=1, padx=10, pady=10)
+
 
     # Intenta iniciar sesión con las credenciales dadas
     def attempt_login():
@@ -194,8 +219,12 @@ def mostrar_login():
         tk.Button(reg_win, text="Registrar", command=attempt_register).pack(pady=10)
 
     # Botones de login y registro
-    tk.Button(login_win, text="Iniciar Sesión", command=attempt_login).pack(pady=10)
-    tk.Button(login_win, text="Registrarse", command=mostrar_registro).pack()
+    tk.Button(login_win, text="Iniciar Sesión", command=attempt_login, bg=azul,fg=blanco, font=("Helvetica", 10, "bold"), activebackground=gris,
+    activeforeground="black", bd=2, relief="groove", width=20).pack(pady=10)
+
+    tk.Button(login_win, text="Registrarse", command=mostrar_registro, bg=gris, fg="black", font=("Helvetica", 10, "bold"), activebackground=azul, activeforeground=blanco, 
+    bd=2, relief="groove", width=20).pack()
+    
     login_win.mainloop()
 
 # Punto de entrada del programa
