@@ -54,8 +54,8 @@ def log_access(username, action):
 def abrir_ventana_principal(usuario):
     principal = tk.Tk()
     principal.title("Sistema Hospitalario")
-    principal.geometry("400x400")
-    principal.configure(bg="#d7d7d7")
+    principal.geometry("400x450")
+    principal.configure(bg=gris_oscuro)
 
     #colores
     azul="#1f77b4"
@@ -133,14 +133,39 @@ def abrir_ventana_principal(usuario):
         log_access(usuario, "salida")
         principal.destroy()
 
+
+    # Marco principal para contener todo el contenido
+    frame_principal = tk.Frame(principal, bg=blanco, bd=3, relief="groove")
+    frame_principal.pack(padx=10, pady=15, fill='both') 
+    
+    label_bienvenida = tk.Label(frame_principal, text=f"Bienvenido, {usuario}", font=("Helvetica", 16, "bold"), bg=blanco, fg=azul)
+    label_bienvenida.pack(pady=(10, 10))
+
     # Widgets de la ventana principal
-    tk.Label(principal, text=f"Bienvenido, {usuario}", font=("Arial", 16)).pack(pady=10)
-    tk.Button(principal, text="Registrar Paciente", command=registrar_paciente).pack(pady=5)
-    tk.Button(principal, text="Ver Pacientes por Gravedad", command=ver_pacientes).pack(pady=5)
-    tk.Button(principal, text="Historial de Pacientes", command=ver_historial_pacientes).pack(pady=5)
-    tk.Button(principal, text="Ver Historial de Accesos", command=ver_historial_accesos_gui).pack(pady=5)
-    tk.Button(principal, text="Exportar Pacientes Ordenados", command=exportar_ordenados).pack(pady=5)
-    tk.Button(principal, text="Cerrar Sesión", command=cerrar_sesion).pack(pady=20)
+
+# Botones con estilo y padding
+    btn_config = {
+        "master": principal,
+        "font": ("Helvetica", 13),
+        "bg": azul,
+        "fg": blanco,
+        "activebackground": "#145a86",
+        "activeforeground": blanco,
+        "bd": 1,
+        "relief": "groove",
+        "width": 25,
+        "cursor": "hand2",
+        "padx": 10,
+        "pady": 8,
+    }
+
+
+    tk.Button(**btn_config, text="Registrar Paciente", command=registrar_paciente).pack(pady=5)
+    tk.Button(**btn_config, text="Ver Pacientes por Gravedad", command=ver_pacientes).pack(pady=5)
+    tk.Button(**btn_config, text="Historial de Pacientes", command=ver_historial_pacientes).pack(pady=5)
+    tk.Button(**btn_config, text="Ver Historial de Accesos", command=ver_historial_accesos_gui).pack(pady=5)
+    tk.Button(**btn_config, text="Exportar Pacientes Ordenados", command=exportar_ordenados).pack(pady=5)
+    tk.Button(**btn_config, text="Cerrar Sesión", command=cerrar_sesion).pack(pady=10)
 
     principal.mainloop()
 
