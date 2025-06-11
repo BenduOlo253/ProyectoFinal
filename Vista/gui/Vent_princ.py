@@ -53,3 +53,5 @@ def abrir_ventana_principal(usuario):
 
 
 abrir_ventana_principal("...")
+
+#Ventana sin funcionalidad
