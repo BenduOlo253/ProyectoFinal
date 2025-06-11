@@ -1,7 +1,6 @@
 import sqlite3
 import os
-
-class PacienteDAO:
+class PacienteDAO():
 
     @staticmethod
     def __obtenerConexion():
@@ -35,25 +34,33 @@ class PacienteDAO:
         return filas
     
     @staticmethod
-    def insertarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido):
+    def obtenerPacientePorId(idPaciente):
+        conn = PacienteDAO.__obtenerConexion()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM Pacientes WHERE id = ?',(idPaciente))
+        resultados = cursor.fetchall()
+        conn.close()
+        
+    @staticmethod
+    def insertarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido):
         conn = PacienteDAO.__obtenerConexion()
         cursor = conn.cursor()
         PacienteDAO.__crearTabla(cursor)
         cursor.execute('''
             INSERT INTO Pacientes (id, nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (idPaciente, nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido))
+        ''', (idPaciente, nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido))
         conn.commit()
         conn.close()
 
     @staticmethod
-    def actualizarPaciente(nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido, idPaciente):
+    def actualizarPaciente(nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido, idPaciente):
         conn = PacienteDAO.__obtenerConexion()
         cursor = conn.cursor()
         cursor.execute('''
             UPDATE Pacientes
             SET nombre = ?, edad = ?, genero = ?, motivo = ?, gravedad = ?, fechadeingreso = ?, atendido = ?
-            WHERE id = ?''', (nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido, idPaciente))
+            WHERE id = ?''', (nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido, idPaciente))
         conn.commit()
         conn.close()
     
