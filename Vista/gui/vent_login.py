@@ -33,10 +33,10 @@ class Login:
         entry_contrasena.grid(row=1, column=1, padx=10, pady=10)
 
         # Botones
-        boton_login = tk.Button(ventana, text="Iniciar sesión", bg=color_azul, fg=color_blanco, width=20, command=iniciar_sesion)
+        boton_login = tk.Button(ventana, text="Iniciar sesión", bg=color_azul, fg=color_blanco, width=20, command= None)
         boton_login.pack(pady=10)
 
-        boton_registro = tk.Button(ventana, text="Registrarse", bg=color_gris, width=20, command=registrarse)
+        boton_registro = tk.Button(ventana, text="Registrarse", bg=color_gris, width=20, command= None)
         boton_registro.pack()
 
     def mostrar(self):
