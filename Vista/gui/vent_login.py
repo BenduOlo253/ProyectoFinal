@@ -10,19 +10,22 @@ def iniciar_sesion():
 def registrarse():
     messagebox.showinfo("Registro", "Función de registro aún no implementada.")
 
+def registrar_paciente():
+    messagebox.showinfo("Registro Paciente", "Función de registrar paciente aún no implementada.")
+
 # Crear ventana principal
 ventana = tk.Tk()
 ventana.title("Login - Sistema hospitalario")
-ventana.geometry("400x300")
-ventana.configure(bg="#e1e1e1")  # fondo gris claro
+ventana.geometry("400x350")
+ventana.configure(bg="#BBBBBB")  # fondo gris claro
 
 # Colores
 color_azul = "#1f77b4"
 color_blanco = "#ffffff"
-color_gris = "#d3d3d3"
+color_gris = "#EDEDED"
 
 # Etiqueta de título
-titulo = tk.Label(ventana, text="Sistema Hospitalario", font=("Helvetica", 16, "bold"), bg="#f0f0f0", fg=color_azul)
+titulo = tk.Label(ventana, text="Sistema Hospitalario", font=("Helvetica", 16, "bold"), bg=color_gris, fg=color_azul)
 titulo.pack(pady=20)
 
 # Marco de formulario
@@ -47,6 +50,9 @@ boton_login.pack(pady=10)
 
 boton_registro = tk.Button(ventana, text="Registrarse", bg=color_gris, width=20, command=registrarse)
 boton_registro.pack()
+
+boton_reg_paciente = tk.Button(ventana, text="Registrar paciente", bg=color_gris, width=20, command=registrar_paciente)
+boton_reg_paciente.pack(pady=10)
 
 # Ejecutar la ventana
 ventana.mainloop()

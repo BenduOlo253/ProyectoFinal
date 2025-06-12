@@ -4,11 +4,9 @@ from tkinter import messagebox
 def abrir_ventana_principal(usuario):
     # Colores
     azul = "#1f77b4"
-    blanco = "#ffffff"
-    gris = "#e1e1e1"
-    gris_oscuro = "#d7d7d7"
+    blanco = "#e1e1e1"
+    gris_oscuro = "#727272"
 
-    # Función vacía temporal
     def pass_func():
         pass
 
@@ -18,15 +16,20 @@ def abrir_ventana_principal(usuario):
     principal.configure(bg=gris_oscuro)
 
     frame_principal = tk.Frame(principal, bg=blanco, bd=3, relief="groove")
-    frame_principal.pack(padx=10, pady=15, fill='both') 
+    frame_principal.pack(padx=10, pady=15, fill='both', expand=True) 
     
-    label_bienvenida = tk.Label(frame_principal, text=f"Olawe, {usuario}",
-                                 font=("Helvetica", 16, "bold"), bg=blanco, fg=azul)
+    label_bienvenida = tk.Label(
+        frame_principal,
+        text=f"Bienvenido, {usuario}",
+        font=("Helvetica", 16, "bold"),
+        bg=blanco,
+        fg=azul
+    )
     label_bienvenida.pack(pady=(10, 10))
 
-    # Botones con estilo y padding
+    # Botones dentro del frame
     btn_config = {
-        "master": principal,
+        "master": frame_principal,  # ← corregido aquí
         "font": ("Helvetica", 13),
         "bg": azul,
         "fg": blanco,
@@ -38,7 +41,7 @@ def abrir_ventana_principal(usuario):
         "cursor": "hand2",
         "padx": 10,
         "pady": 8,
-        "command": pass_func  # comando temporal
+        "command": pass_func
     }
 
     # Crear botones
@@ -52,6 +55,4 @@ def abrir_ventana_principal(usuario):
     principal.mainloop()
 
 
-abrir_ventana_principal("...")
-
-#Ventana sin funcionalidad
+abrir_ventana_principal("Usuario")

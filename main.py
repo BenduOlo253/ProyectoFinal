@@ -9,7 +9,7 @@ from utils.timestamp import current_timestamp
 from utils.paciente_io import guardar_pacientes, cargar_pacientes
 from utils.sorting import merge_sort
 from utils.access_log import leer_historial_accesos
-
+#registro#
 # Constantes para rutas de archivos
 USERS_FILE = "data/users.txt"
 ACCESS_LOG_FILE = "data/access_log.txt"
@@ -258,3 +258,6 @@ if __name__ == "__main__":
     open(ACCESS_LOG_FILE, "a").close()  # Asegura que existan los archivos
     open(PACIENTES_FILE, "a").close()
     mostrar_login()  # Muestra la interfaz de login
+
+
+ 
