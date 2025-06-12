@@ -30,6 +30,15 @@ class UsuarioDAO:
         return filas
     
     @staticmethod
+    def obtenerUsuarioPorId(idUsuario):
+        conn = UsuarioDAO.__obtenerConexion()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM Usuarios WHERE id = ?', (idUsuario,))
+        resultados = cursor.fetchall()
+        cursor.close()
+        return resultados
+
+    @staticmethod
     def insertarUsuario(idUsuario, nombre, contraseña, rol):
         conn = UsuarioDAO.__obtenerConexion()
         cursor = conn.cursor()
@@ -53,7 +62,7 @@ class UsuarioDAO:
         conn.close()
     
     @staticmethod
-    def eliminarPaciente(idUsuario):
+    def eliminarUsuario(idUsuario):
         conn = UsuarioDAO.__obtenerConexion()
         cursor = conn.cursor()
         cursor.execute('DELETE FROM Usuario WHERE id = ?', (idUsuario))
