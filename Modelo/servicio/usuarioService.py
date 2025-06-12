@@ -1,4 +1,4 @@
-from datos.usuarioDAO import UsuarioDAO
+from Modelo.datos.usuarioDAO import UsuarioDAO
 
 class UsuarioService:
 
@@ -10,13 +10,21 @@ class UsuarioService:
         else: return True
 
     @staticmethod
+    def autenticarUsuario(idUsuario, contraseña):
+        if len(UsuarioService.buscarUsuario(idUsuario)) < 1:
+            return False
+        elif (UsuarioService.buscarUsuario(idUsuario)[0])[2] == contraseña:
+            return True
+        else: return False
+        
+    @staticmethod
     def obtenerUsuarios():
         return UsuarioDAO.obtenerUsuarios()
 
     @staticmethod
-    def buscarUsuario():
-        return (UsuarioDAO.obtenerUsuarioPorId())[0]
-
+    def buscarUsuario(idUsuario):
+        return UsuarioDAO.obtenerUsuarioPorId(idUsuario)
+    
     @staticmethod
     def registrarUsuario(idUsuario, nombre, contraseña, rol):
         if UsuarioService.__verificarDuplicados(idUsuario):
