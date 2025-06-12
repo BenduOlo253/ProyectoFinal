@@ -33,7 +33,7 @@ class UsuarioDAO:
     def obtenerUsuarioPorId(idUsuario):
         conn = UsuarioDAO.__obtenerConexion()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Usuarios WHERE id = ?', (idUsuario))
+        cursor.execute('SELECT * FROM Usuarios WHERE id = ?', (idUsuario,))
         resultados = cursor.fetchall()
         cursor.close()
         return resultados
