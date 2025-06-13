@@ -12,3 +12,5 @@ class LoginControlador:
 
     def registrarse():
         messagebox.showinfo("Registro", "Función de registro aún no implementada.")
+
+        
