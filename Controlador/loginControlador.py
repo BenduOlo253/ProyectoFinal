@@ -10,7 +10,10 @@ class LoginControlador:
         else:
             messagebox.showerror("Error de inicio de sesión", "ID de usuario o contraseña incorrectos.")
 
-    def registrarse():
-        messagebox.showinfo("Registro", "Función de registro aún no implementada.")
+    def registrarUsuario(id_usuario, nombre, contraseña, rol):
+        if not id_usuario or not nombre or not contraseña or not rol:
+            messagebox.showerror("Error", "Todos los campos son obligatorios.")
+            return
+        messagebox.showinfo("Informacion sobre registro", UsuarioService.registrarUsuario(id_usuario, nombre, contraseña, rol))
 
         

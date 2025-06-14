@@ -11,11 +11,11 @@ class UsuarioDAO:
     @staticmethod
     def __crearTabla(cursor):
         cursor.execute('''
-                       CREATE TABLE "Usuarios" ( 
-                       "id" TEXT NOT NULL UNIQUE, 
-                       "nombre" TEXT NOT NULL UNIQUE, 
-                       "contraseña" TEXT NOT NULL, 
-                       "rol" TEXT NOT NULL, PRIMARY KEY("id") );
+            CREATE TABLE IF NOT EXISTS "Usuarios" ( 
+            "id" TEXT NOT NULL UNIQUE, 
+            "nombre" TEXT NOT NULL UNIQUE, 
+            "contraseña" TEXT NOT NULL, 
+            "rol" TEXT NOT NULL, PRIMARY KEY("id")
             );
         ''')
 

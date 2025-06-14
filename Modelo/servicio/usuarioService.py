@@ -27,7 +27,7 @@ class UsuarioService:
     
     @staticmethod
     def registrarUsuario(idUsuario, nombre, contraseña, rol):
-        if UsuarioService.__verificarDuplicados(idUsuario):
+        if not UsuarioService.__verificarDuplicados(idUsuario):
             UsuarioDAO.insertarUsuario(idUsuario, nombre, contraseña, rol)
             return (f"El usuario {nombre} ha sido registrado correctamente.")
         else: return (f"El ID del usuario {nombre} ya existe. Por favor use un ID unico.")

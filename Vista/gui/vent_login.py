@@ -1,5 +1,6 @@
 import tkinter as tk
-from Controlador.loginControlador import LoginControlador
+
+
 
 class Login:
     def __init__(self, ventana):
@@ -41,18 +42,16 @@ class Login:
         boton_registro.pack()
 
     def iniciar_sesion(self):
+        from Controlador.loginControlador import LoginControlador
         usuario = self.entry_usuario.get()
         contrasena = self.entry_contrasena.get()
         LoginControlador.iniciar_sesion(usuario, contrasena)
 
     def registrarse(self):
-        print("Registro no implementado aún")
-
+        from Vista.gui.vent_reg_us import ventanaRegistroUsuario 
+        self.ventana.destroy()
+        ventanaRegistroUsuario(tk.Tk()).mostrar()
+       
+        
     def mostrar(self):
         self.ventana.mainloop()
-
-
-# Ejecución
-if __name__ == "__main__":
-    app = Login(tk.Tk())
-    app.mostrar()
