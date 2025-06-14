@@ -1,4 +1,4 @@
-from datos.pacienteDAO import PacienteDAO
+from Modelo.datos.pacienteDAO import PacienteDAO
 
 class PacienteService:
 
@@ -7,6 +7,7 @@ class PacienteService:
         if len(pacientes) == 0:
             return False
         else: return True
+
 
     @staticmethod
     def obtenerPacientes():
@@ -27,7 +28,7 @@ class PacienteService:
             return (f"El paciente {nombre} ha sido registrado correctamente.")
         else:
             return "El ID del paciente ya existe. Por favor, use un ID único."
-        
+    
     @staticmethod
     def actualizarPaciente(nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido, idPaciente):
         PacienteDAO.actualizarPaciente(nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido, idPaciente)

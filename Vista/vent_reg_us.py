@@ -54,7 +54,7 @@ class ventanaRegistroUsuario:
         self.ventana.mainloop()
         
     def cancelar(self):
-        from Vista.gui.vent_login import Login
+        from Vista.vent_login import Login
         self.ventana.destroy()
         Login(tk.Tk()).mostrar()
         

@@ -45,6 +45,7 @@ class Login:
         from Controlador.loginControlador import LoginControlador
         usuario = self.entry_usuario.get()
         contrasena = self.entry_contrasena.get()
+        self.ventana.destroy()
         LoginControlador.iniciar_sesion(usuario, contrasena)
 
     def registrarse(self):

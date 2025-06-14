@@ -12,7 +12,7 @@ class VentPrincipalControlador:
     def verPacientesPorGravedad():
         pacientes = PacienteService.verPacientesPorGravedad()
         if pacientes:
-            pass
+            pass 
         else:
             messagebox.showinfo("Informacion", "No hay pacientes registrados.")
     

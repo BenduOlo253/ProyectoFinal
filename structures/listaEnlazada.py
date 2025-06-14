@@ -1,3 +1,4 @@
+#Lista enlazada para almacenar pares clave-valor para la tabla hash.
 class Nodo:
     def __init__(self, clave, valor):
         self.clave = clave

@@ -1,4 +1,4 @@
-from Vista.gui.vent_login import Login
+from Vista.vent_login import Login
 import tkinter as tk
 
 app = Login(tk.Tk())

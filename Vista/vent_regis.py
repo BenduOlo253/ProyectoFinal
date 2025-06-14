@@ -47,11 +47,14 @@ class VentanaRegistroPaciente:
         # Botón de acción (sin funcionalidad asignada aún)
         boton_registro = tk.Button(ventana, text="Registrar Paciente", bg=color_azul, fg=color_blanco, width=20)
         boton_registro.pack(pady=20)
-    
+    def cancelar(self):
+        self.ventana.destroy
+        from 
+
     def mostrar(self):
         self.ventana.mainloop()
     
-    def registrarPaciente(self, ):
+    def registrarPaciente(self ):
         from Controlador.ventPrincipalControlador import VentPrincipalControlador
         VentPrincipalControlador.registrarPaciente()
         self.ventana.destroy

@@ -5,12 +5,11 @@ class VentanaPrincipal:
         self.usuario = usuario
         ventana.title("Sistema Hospitalario")
         ventana.geometry("400x450")
-        ventana.configure(bg=gris_oscuro)
+        ventana.configure(bg="#727272")
 
         azul = "#1f77b4"
         blanco = "#ffffff"
-        gris_oscuro = "#727272"
-
+        
 
         frame_principal = tk.Frame(ventana, bg=blanco, bd=3, relief="groove")
         frame_principal.pack(padx=10, pady=15, fill='both') 
@@ -49,7 +48,6 @@ class VentanaPrincipal:
 
     def mostrar(self):
         self.ventana.mainloop()
-
     def registrar_paciente(self):
         from Vista.vent_regis import VentanaRegistroPaciente
         VentanaRegistroPaciente(tk.Tk()).mostrar()

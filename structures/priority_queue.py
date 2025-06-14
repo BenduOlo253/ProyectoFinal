@@ -1,11 +1,4 @@
-# Clase que representa a un paciente con atributos básicos
-class Paciente:
-    def __init__(self, id, nombre, edad, gravedad):
-        self.id = id                # Identificador único del paciente
-        self.nombre = nombre        # Nombre del paciente
-        self.edad = edad            # Edad del paciente
-        self.gravedad = gravedad    # Nivel de gravedad (prioridad): entre más alto, más urgente
-
+from structures.listaEnlazada import ListaEnlazada
 # Nodo que almacena un paciente y apunta al siguiente nodo en la cola
 class NodoCola:
     def __init__(self, paciente):
@@ -35,9 +28,9 @@ class ColaPrioridad:
 
     # Devuelve una lista con todos los pacientes en orden de prioridad
     def obtener_todos(self):
-        result = []
+        result = ListaEnlazada()
         curr = self.frente
         while curr:
-            result.append(curr.paciente)  # Agregar el paciente actual a la lista
+            result.insertar(curr.paciente.getIdPaciente, curr.paciente)  # Agregar el paciente actual a la lista
             curr = curr.siguiente         # Avanzar al siguiente nodo
         return result
