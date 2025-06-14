@@ -2,9 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 
 def abrir_ventana_principal(usuario):
-    # Colores
     azul = "#1f77b4"
-    blanco = "#e1e1e1"
+    blanco = "#ffffff"
     gris_oscuro = "#727272"
 
     def pass_func():
@@ -16,7 +15,7 @@ def abrir_ventana_principal(usuario):
     principal.configure(bg=gris_oscuro)
 
     frame_principal = tk.Frame(principal, bg=blanco, bd=3, relief="groove")
-    frame_principal.pack(padx=10, pady=15, fill='both', expand=True) 
+    frame_principal.pack(padx=10, pady=15, fill='both') 
     
     label_bienvenida = tk.Label(
         frame_principal,
@@ -27,32 +26,115 @@ def abrir_ventana_principal(usuario):
     )
     label_bienvenida.pack(pady=(10, 10))
 
-    # Botones dentro del frame
-    btn_config = {
-        "master": frame_principal,  # ← corregido aquí
-        "font": ("Helvetica", 13),
-        "bg": azul,
-        "fg": blanco,
-        "activebackground": "#145a86",
-        "activeforeground": blanco,
-        "bd": 1,
-        "relief": "groove",
-        "width": 25,
-        "cursor": "hand2",
-        "padx": 10,
-        "pady": 8,
-        "command": pass_func
-    }
+    # Botones 
+    boton1 = tk.Button(
+        frame_principal,
+        text="Registrar Paciente",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=pass_func
+    )
+    boton1.pack(pady=5)
 
-    # Crear botones
-    tk.Button(**btn_config, text="Registrar Paciente").pack(pady=5)
-    tk.Button(**btn_config, text="Ver Pacientes por Gravedad").pack(pady=5)
-    tk.Button(**btn_config, text="Historial de Pacientes").pack(pady=5)
-    tk.Button(**btn_config, text="Ver Historial de Accesos").pack(pady=5)
-    tk.Button(**btn_config, text="Exportar Pacientes Ordenados").pack(pady=5)
-    tk.Button(**btn_config, text="Cerrar Sesión").pack(pady=10)
+    boton2 = tk.Button(
+        frame_principal,
+        text="Ver Pacientes por Gravedad",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=pass_func
+    )
+    boton2.pack(pady=5)
+
+    boton3 = tk.Button(
+        frame_principal,
+        text="Historial de Pacientes",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=pass_func
+    )
+    boton3.pack(pady=5)
+
+    boton4 = tk.Button(
+        frame_principal,
+        text="Ver Historial de Accesos",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=pass_func
+    )
+    boton4.pack(pady=5)
+
+    boton5 = tk.Button(
+        frame_principal,
+        text="Exportar Pacientes Ordenados",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=pass_func
+    )
+    boton5.pack(pady=5)
+
+    boton6 = tk.Button(
+        frame_principal,
+        text="Cerrar Sesión",
+        font=("Helvetica", 13),
+        bg=azul,
+        fg=blanco,
+        activebackground="#145a86",
+        activeforeground=blanco,
+        bd=1,
+        relief="groove",
+        width=25,
+        cursor="hand2",
+        padx=10,
+        pady=8,
+        command=principal.destroy
+    )
+    boton6.pack(pady=10)
 
     principal.mainloop()
-
 
 abrir_ventana_principal("Usuario")
