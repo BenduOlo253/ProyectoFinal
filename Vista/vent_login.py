@@ -1,10 +1,11 @@
 import tkinter as tk
-
-
+import tkinter.messagebox as messagebox
+from Controlador.loginControlador import LoginControlador
 
 class Login:
     def __init__(self, ventana):
         self.ventana = ventana
+        self.controlador = LoginControlador()
         ventana.title("Login - Sistema hospitalario")
         ventana.geometry("400x300")
         ventana.configure(bg="#e1e1e1")
@@ -42,11 +43,14 @@ class Login:
         boton_registro.pack()
 
     def iniciar_sesion(self):
-        from Controlador.loginControlador import LoginControlador
+        
         usuario = self.entry_usuario.get()
-        contrasena = self.entry_contrasena.get()
+        contraseña = self.entry_contrasena.get()
+        if not usuario or not contraseña:
+            messagebox.showerror("Error", "ID de usuario y contraseña son obligatorios.")
+            return
         self.ventana.destroy()
-        LoginControlador.iniciar_sesion(usuario, contrasena)
+        self.controlador.iniciar_sesion(usuario, contraseña)
 
     def registrarse(self):
         from Vista.vent_reg_us import ventanaRegistroUsuario 

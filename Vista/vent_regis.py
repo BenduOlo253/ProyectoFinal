@@ -1,60 +1,78 @@
 import tkinter as tk
-
+from tkinter import messagebox
 
 class VentanaRegistroPaciente:
-    def __init__(self, ventana):
-        # Crear ventana principal
+    def __init__(self, ventana, controlador):
         self.ventana = ventana
+        self.controlador = controlador
+
         ventana.title("Registro de Paciente - Sistema Hospitalario")
         ventana.geometry("450x520")
         ventana.configure(bg="#e1e1e1")  # fondo gris claro
 
         # Colores
-        color_azul = "#1f77b4"
-        color_blanco = "#ededed"
+        self.color_azul = "#1f77b4"
+        self.color_blanco = "#ededed"
 
         # Título
-        titulo = tk.Label(ventana, text="Registro de Paciente", font=("Helvetica", 16, "bold"), bg="#f0f0f0", fg=color_azul)
-        titulo.pack(pady=20)
+        self.titulo = tk.Label(ventana, text="Registro de Paciente", font=("Helvetica", 16, "bold"), bg="#f0f0f0", fg=self.color_azul)
+        self.titulo.pack(pady=20)
 
         # Marco de formulario
-        frame = tk.Frame(ventana, bg=color_blanco, bd=2, relief="groove")
-        frame.pack(padx=30, pady=10)
+        self.frame = tk.Frame(ventana, bg=self.color_blanco, bd=2, relief="groove")
+        self.frame.pack(padx=30, pady=10)
 
-        # Lista de campos
-        campos = [
-            ("ID Paciente:", "id"),
-            ("Nombre:", "nombre"),
-            ("Edad:", "edad"),
-            ("Género:", "genero"),
-            ("Motivo:", "motivo"),
-            ("Gravedad:", "gravedad"),
-            ("Fecha Ingreso:", "fecha"),
-            ("Atendido (Sí/No):", "atendido")
+        # Campos y entradas guardados como listas paralelas
+        self.labels_textos = [
+            "ID Paciente:",
+            "Nombre:",
+            "Edad:",
+            "Género:",
+            "Motivo:",
+            "Gravedad:",
+            "Fecha Ingreso:",
+            "Atendido (Sí/No):"
         ]
 
-        # Diccionario para guardar referencias a las entradas
-        entries = {}
+        self.entries = []  # lista para guardar las referencias a los Entry widgets
 
-        # Crear campos
-        for i, (label_text, key) in enumerate(campos):
-            label = tk.Label(frame, text=label_text, bg=color_blanco)
+        for i, texto in enumerate(self.labels_textos):
+            label = tk.Label(self.frame, text=texto, bg=self.color_blanco)
             label.grid(row=i, column=0, padx=10, pady=8, sticky="e")
-            entry = tk.Entry(frame, width=25)
+            entry = tk.Entry(self.frame, width=25)
             entry.grid(row=i, column=1, padx=10, pady=8)
-            entries[key] = entry
+            self.entries.append(entry)
 
-        # Botón de acción (sin funcionalidad asignada aún)
-        boton_registro = tk.Button(ventana, text="Registrar Paciente", bg=color_azul, fg=color_blanco, width=20)
-        boton_registro.pack(pady=20)
+        # Botones
+        self.boton_registro = tk.Button(ventana, text="Registrar Paciente", bg=self.color_azul, fg="white", width=20, command=self.registrarPaciente)
+        self.boton_registro.pack(pady=15)
+
+        self.boton_cancelar = tk.Button(ventana, text="Cancelar", bg="red", fg="white", width=20, command=self.cancelar)
+        self.boton_cancelar.pack()
+
+    def registrarPaciente(self):
+        idPaciente = self.entries[0].get().strip()
+        nombre = self.entries[1].get().strip()
+        edad = self.entries[2].get().strip()
+        genero = self.entries[3].get().strip()
+        motivo = self.entries[4].get().strip()
+        gravedad = self.entries[5].get().strip()
+        fechaIngreso = self.entries[6].get().strip()
+        atendido = self.entries[7].get().strip()
+
+        if not idPaciente or not nombre or not edad or not genero or not motivo or not gravedad or not fechaIngreso:
+            messagebox.showerror("Error", "Todos los campos excepto 'Atendido' son obligatorios.")
+            return
+
+        mensaje = self.controlador.registrarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechaIngreso, atendido)
+        messagebox.showinfo("Registro", mensaje)
+
     def cancelar(self):
-        self.ventana.destroy
-        from 
+        self.ventana.destroy()
+        # Abrir ventana login
+        from Vista.vent_login import Login
+        root_login = tk.Tk()
+        Login(root_login).mostrar()
 
     def mostrar(self):
         self.ventana.mainloop()
-    
-    def registrarPaciente(self ):
-        from Controlador.ventPrincipalControlador import VentPrincipalControlador
-        VentPrincipalControlador.registrarPaciente()
-        self.ventana.destroy

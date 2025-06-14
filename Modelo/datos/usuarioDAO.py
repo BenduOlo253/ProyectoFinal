@@ -1,70 +1,34 @@
-import sqlite3
-import os
+from Modelo.dominio.Usuario import Usuario
+from structures.tablaHash import TablaHash
+from structures.listaEnlazada import ListaEnlazada
 
 class UsuarioDAO:
+    def __init__(self):
+        self.tabla = TablaHash()
 
-    @staticmethod
-    def __obtenerConexion():
-        ruta_db = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'Hospital.db'))
-        return sqlite3.connect(ruta_db)
+    def insertarUsuario(self, usuario: Usuario):
+        clave = usuario.getId()
+        self.tabla.insertarValor(clave, usuario)
 
-    @staticmethod
-    def __crearTabla(cursor):
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS "Usuarios" ( 
-            "id" TEXT NOT NULL UNIQUE, 
-            "nombre" TEXT NOT NULL UNIQUE, 
-            "contraseña" TEXT NOT NULL, 
-            "rol" TEXT NOT NULL, PRIMARY KEY("id")
-            );
-        ''')
+    def obtenerUsuarioPorId(self, idUsuario):
+        return self.tabla.obtenerValor(idUsuario)
 
-    @staticmethod
-    def  obtenerUsuarios():
-        conn = UsuarioDAO.__obtenerConexion()
-        cursor = conn.cursor()
-        UsuarioDAO.__crearTabla(cursor)
-        cursor.execute('SELECT * FROM Usuarios')
-        filas = cursor.fetchall()
-        conn.close()
-        return filas
-    
-    @staticmethod
-    def obtenerUsuarioPorId(idUsuario):
-        conn = UsuarioDAO.__obtenerConexion()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Usuarios WHERE id = ?', (idUsuario,))
-        resultados = cursor.fetchall()
-        cursor.close()
-        return resultados
+    def obtenerUsuarios(self):
+        usuarios = ListaEnlazada()
+        for lista in self.tabla.tabla:
+            for nodo in lista:
+                usuarios.insertar(nodo.clave, nodo.valor)
+        return usuarios
 
-    @staticmethod
-    def insertarUsuario(idUsuario, nombre, contraseña, rol):
-        conn = UsuarioDAO.__obtenerConexion()
-        cursor = conn.cursor()
-        UsuarioDAO.__crearTabla(cursor)
-        cursor.execute('''
-            INSERT INTO Usuarios (id, nombre, contraseña, rol)
-            VALUES (?, ?, ?, ?)
-        ''', (idUsuario, nombre, contraseña, rol))
-        conn.commit()
-        conn.close()
+    def actualizarUsuario(self, idUsuario, nombre, contraseña, rol):
+        usuario = self.obtenerUsuarioPorId(idUsuario)
+        if usuario:
+            usuario.setNombre(nombre)
+            usuario.setContraseña(contraseña)
+            usuario.setRol(rol)
+            self.tabla.insertar(idUsuario, usuario)  # Actualiza
+            return True
+        return False
 
-    @staticmethod
-    def actualizarUsuario(idUsuario, nombre, contraseña, rol):
-        conn = UsuarioDAO.__obtenerConexion()
-        cursor = conn.cursor()
-        cursor.execute('''
-            UPDATE Usuarios
-            SET nombre = ?, contraseña = ?, rol = ?
-            WHERE id = ?''', (nombre, contraseña, rol, idUsuario))
-        conn.commit()
-        conn.close()
-    
-    @staticmethod
-    def eliminarUsuario(idUsuario):
-        conn = UsuarioDAO.__obtenerConexion()
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM Usuario WHERE id = ?', (idUsuario))
-        conn.commit()
-        conn.close()
+    def eliminarUsuario(self, idUsuario):
+        return self.tabla.eliminar(idUsuario)

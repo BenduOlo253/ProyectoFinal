@@ -1,7 +1,9 @@
 import tkinter as tk
+from Controlador.loginControlador import LoginControlador
 class ventanaRegistroUsuario:
     def __init__(self, ventana):
         self.ventana = ventana
+        self.controlador = LoginControlador()
         ventana.title("Registro de Usuario - Sistema Hospitalario")
         ventana.geometry("450x400")
         ventana.configure(bg="#e1e1e1")
@@ -60,10 +62,10 @@ class ventanaRegistroUsuario:
         
 
     def registrarUsuario(self):
-        from Controlador.loginControlador import LoginControlador
+        
         id_usuario = self.entry_id.get()
         nombre = self.entry_nombre.get()
         contraseña = self.entry_contraseña.get()
         rol = self.entry_rol.get()
 
-        LoginControlador.registrarUsuario(id_usuario, nombre, contraseña, rol)
+        self.controlador.registrarUsuario(id_usuario, nombre, contraseña, rol)

@@ -1,50 +1,60 @@
 import tkinter as tk
 from tkinter import ttk
+from Controlador.listaPacientesControlador import ListaPacientesControlador
 
-# Crear ventana de visualización
-ventana = tk.Tk()
-ventana.title("Lista de Pacientes Registrados")
-ventana.geometry("800x400")
-ventana.configure(bg="#e1e1e1")
+class VentanaListaPacientes:
+    def __init__(self, ventana):
+        self.ventana = ventana
+        self.ventana.title("Lista de Pacientes Registrados")
+        self.ventana.geometry("800x400")
+        self.ventana.configure(bg="#e1e1e1")
 
-# Colores
-color_azul = "#1f77b4"
-color_blanco = "#ffffff"
+        self.color_azul = "#1f77b4"
+        self.color_blanco = "#ffffff"
 
-# Título
-titulo = tk.Label(ventana, text="Pacientes Registrados", font=("Helvetica", 16, "bold"), bg="#f0f0f0", fg=color_azul)
-titulo.pack(pady=20)
+        self.titulo = tk.Label(
+            self.ventana,
+            text="Pacientes Registrados",
+            font=("Helvetica", 16, "bold"),
+            bg="#f0f0f0",
+            fg=self.color_azul
+        )
+        self.titulo.pack(pady=20)
 
-# Marco de la tabla
-frame_tabla = tk.Frame(ventana, bg=color_blanco, bd=2, relief="groove")
-frame_tabla.pack(padx=20, pady=10, fill="both", expand=True)
+        self.frame_tabla = tk.Frame(self.ventana, bg=self.color_blanco, bd=2, relief="groove")
+        self.frame_tabla.pack(padx=20, pady=10, fill="both", expand=True)
 
-# Definir columnas
-columnas = ("id", "nombre", "edad", "genero", "motivo", "gravedad", "fechaIngreso", "atendido")
+        self.columnas = ["id", "nombre", "edad", "genero", "motivo", "gravedad", "fechaIngreso", "atendido"]
 
-# Crear Treeview
-tabla = ttk.Treeview(frame_tabla, columns=columnas, show="headings")
+        self.tabla = ttk.Treeview(self.frame_tabla, columns=self.columnas, show="headings")
 
-# Definir encabezados
-tabla.heading("id", text="ID Paciente")
-tabla.heading("nombre", text="Nombre")
-tabla.heading("edad", text="Edad")
-tabla.heading("genero", text="Género")
-tabla.heading("motivo", text="Motivo")
-tabla.heading("gravedad", text="Gravedad")
-tabla.heading("fechaIngreso", text="Fecha Ingreso")
-tabla.heading("atendido", text="Atendido")
+        encabezados = [
+            "ID Paciente", "Nombre", "Edad", "Género",
+            "Motivo", "Gravedad", "Fecha Ingreso", "Atendido"
+        ]
 
-# Ajustar el ancho de las columnas
-for col in columnas:
-    tabla.column(col, width=100, anchor="center")
+        for i in range(len(self.columnas)):
+            self.tabla.heading(self.columnas[i], text=encabezados[i])
+            self.tabla.column(self.columnas[i], width=100, anchor="center")
 
-# Agregar scrollbar
-scrollbar_y = ttk.Scrollbar(frame_tabla, orient="vertical", command=tabla.yview)
-tabla.configure(yscrollcommand=scrollbar_y.set)
-scrollbar_y.pack(side="right", fill="y")
+        self.scrollbar_y = ttk.Scrollbar(self.frame_tabla, orient="vertical", command=self.tabla.yview)
+        self.tabla.configure(yscrollcommand=self.scrollbar_y.set)
+        self.scrollbar_y.pack(side="right", fill="y")
 
-tabla.pack(fill="both", expand=True)
+        self.tabla.pack(fill="both", expand=True)
 
-# Ejecutar ventana
-ventana.mainloop()
+        self.cargar_pacientes()
+
+    def cargar_pacientes(self):
+        pacientes = ListaPacientesControlador.obtenerPacientesListaSimple()
+
+        # Limpiar tabla antes de insertar
+        for item in self.tabla.get_children():
+            self.tabla.delete(item)
+
+        # Insertar filas
+        for paciente in pacientes:
+            self.tabla.insert("", "end", values=paciente)
+
+    def mostrar(self):
+        self.ventana.mainloop()
