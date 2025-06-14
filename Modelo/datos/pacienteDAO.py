@@ -34,12 +34,20 @@ class PacienteDAO():
         return filas
     
     @staticmethod
+    def obtenerPacientesPorGravedad():
+        conn = PacienteDAO.__obtenerConexion()
+        cursor = conn.cursor()
+        PacienteDAO.__crearTabla(cursor)
+
+    
+    @staticmethod
     def obtenerPacientePorId(idPaciente):
         conn = PacienteDAO.__obtenerConexion()
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM Pacientes WHERE id = ?',(idPaciente))
         resultados = cursor.fetchall()
         conn.close()
+        return resultados
         
     @staticmethod
     def insertarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido):

@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 
 def abrir_ventana_principal(usuario):
-    from Vista.gui 
+    from Controlador.ventPrincipalControlador import PacienteService
+
     azul = "#1f77b4"
     blanco = "#ffffff"
     gris_oscuro = "#727272"
@@ -25,7 +26,7 @@ def abrir_ventana_principal(usuario):
     label_bienvenida.pack(pady=(10, 10))
 
     def registrar_paciente():
-        VentPrincipalControlador.registrarPaciente()
+        RegistroPacienteControlador.abrir_formulario_registro()
 
     def ver_pacientes_por_gravedad():
         VisualizacionControlador.mostrar_por_gravedad()

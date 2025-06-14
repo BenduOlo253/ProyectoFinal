@@ -13,15 +13,20 @@ class PacienteService:
         return PacienteDAO.obtenerPacientes()
     
     @staticmethod
+    def obtenerPacientesPorGravedad():
+        return PacienteDAO.obtenerPacientesPorGravedad()
+    
+    @staticmethod
     def buscarPaciente(idPaciente):
         return (PacienteDAO.obtenerPacientePorId(idPaciente))[0]
 
     @staticmethod
     def registrarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido):
-        if PacienteService.__verificarDuplicados(idPaciente):
+        if not PacienteService.__verificarDuplicados(idPaciente):
             PacienteDAO.insertarPaciente(idPaciente, nombre, edad, genero, motivo, gravedad, fechadeingreso, atendido)
+            return (f"El paciente {nombre} ha sido registrado correctamente.")
         else:
-            raise ValueError("El ID del paciente ya existe. Por favor, use un ID único.")
+            return "El ID del paciente ya existe. Por favor, use un ID único."
         
     @staticmethod
     def actualizarPaciente(nombre, edad, genero, motivo, gravedad, fechaDeIngreso, atendido, idPaciente):
