@@ -48,10 +48,9 @@ class Login:
         LoginControlador.iniciar_sesion(usuario, contrasena)
 
     def registrarse(self):
-        from Vista.gui.vent_reg_us import ventanaRegistroUsuario 
+        from Vista.vent_reg_us import ventanaRegistroUsuario 
         self.ventana.destroy()
         ventanaRegistroUsuario(tk.Tk()).mostrar()
        
-        
     def mostrar(self):
         self.ventana.mainloop()
