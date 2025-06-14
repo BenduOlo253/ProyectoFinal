@@ -1,5 +1,5 @@
 class TablaHashDoble:
-    def __init__(self, tamaño=10):
+    def __init__(self, tamaño=50):
         self.tamaño = tamaño
         self.tabla = [None] * tamaño
         self.valores = [None] * tamaño  # para claves
