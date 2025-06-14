@@ -2,12 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 
 def abrir_ventana_principal(usuario):
+    from Controlador.ventPrincipalControlador import PacienteService
+
     azul = "#1f77b4"
     blanco = "#ffffff"
     gris_oscuro = "#727272"
-
-    def pass_func():
-        pass
 
     principal = tk.Tk()
     principal.title("Sistema Hospitalario")
@@ -26,115 +25,65 @@ def abrir_ventana_principal(usuario):
     )
     label_bienvenida.pack(pady=(10, 10))
 
-    # Botones 
-    boton1 = tk.Button(
-        frame_principal,
-        text="Registrar Paciente",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=pass_func
-    )
-    boton1.pack(pady=5)
+    def registrar_paciente():
+        RegistroPacienteControlador.abrir_formulario_registro()
 
-    boton2 = tk.Button(
-        frame_principal,
-        text="Ver Pacientes por Gravedad",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=pass_func
-    )
-    boton2.pack(pady=5)
+    def ver_pacientes_por_gravedad():
+        VisualizacionControlador.mostrar_por_gravedad()
 
-    boton3 = tk.Button(
-        frame_principal,
-        text="Historial de Pacientes",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=pass_func
-    )
-    boton3.pack(pady=5)
+    def ver_historial_pacientes():
+        HistorialControlador.mostrar_historial()
 
-    boton4 = tk.Button(
-        frame_principal,
-        text="Ver Historial de Accesos",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=pass_func
-    )
-    boton4.pack(pady=5)
+    def ver_historial_accesos():
+        HistorialControlador.mostrar_accesos()
 
-    boton5 = tk.Button(
-        frame_principal,
-        text="Exportar Pacientes Ordenados",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=pass_func
-    )
-    boton5.pack(pady=5)
+    def exportar_pacientes_ordenados():
+        ExportacionControlador.exportar_ordenados()
 
-    boton6 = tk.Button(
-        frame_principal,
-        text="Cerrar Sesión",
-        font=("Helvetica", 13),
-        bg=azul,
-        fg=blanco,
-        activebackground="#145a86",
-        activeforeground=blanco,
-        bd=1,
-        relief="groove",
-        width=25,
-        cursor="hand2",
-        padx=10,
-        pady=8,
-        command=principal.destroy
-    )
-    boton6.pack(pady=10)
+    def cerrar_sesion():
+        principal.destroy()
+
+    # Botones
+    tk.Button(
+        frame_principal, text="Registrar Paciente", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=registrar_paciente
+    ).pack(pady=5)
+
+    tk.Button(
+        frame_principal, text="Ver Pacientes por Gravedad", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=ver_pacientes_por_gravedad
+    ).pack(pady=5)
+
+    tk.Button(
+        frame_principal, text="Historial de Pacientes", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=ver_historial_pacientes
+    ).pack(pady=5)
+
+    tk.Button(
+        frame_principal, text="Ver Historial de Accesos", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=ver_historial_accesos
+    ).pack(pady=5)
+
+    tk.Button(
+        frame_principal, text="Exportar Pacientes Ordenados", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=exportar_pacientes_ordenados
+    ).pack(pady=5)
+
+    tk.Button(
+        frame_principal, text="Cerrar Sesión", font=("Helvetica", 13),
+        bg=azul, fg=blanco, activebackground="#145a86", activeforeground=blanco,
+        bd=1, relief="groove", width=25, cursor="hand2",
+        padx=10, pady=8, command=cerrar_sesion
+    ).pack(pady=10)
 
     principal.mainloop()
-
-abrir_ventana_principal("Usuario")
